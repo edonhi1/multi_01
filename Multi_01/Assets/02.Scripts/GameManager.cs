@@ -50,11 +50,11 @@ public class GameManager : MonoBehaviour {
 
     public void UpScore()
     {
-        score += 1;
+        score += 100;
     }
 
     public void DownScore()
     {
-        score -= 1;
+        score -= 100;
     }
 }
