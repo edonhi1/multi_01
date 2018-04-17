@@ -4,6 +4,9 @@ using UnityEngine;
 using MiniJSON;
 using SimpleJSON;
 using UnityEngine.SceneManagement;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+using UnityEngine.SocialPlatforms;
 
 public class Login : MonoBehaviour {
 
@@ -11,6 +14,7 @@ public class Login : MonoBehaviour {
     public string gameServerURL = "";
     public GameObject loginBtn;
     public GameObject popupWindow;
+    public UILabel logText;
 
     private void Awake()
     {
@@ -71,7 +75,7 @@ public class Login : MonoBehaviour {
         PlayerPrefs.SetInt("UserGold", int.Parse(gameData["UserGold"]));
         PlayerPrefs.SetInt("UserCash", int.Parse(gameData["UserCash"]));
         PlayerPrefs.SetInt("UserScore", int.Parse(gameData["UserScore"]));
-
+        
         //Debug.Log(gameData["UserID"]);
         //Debug.Log(gameData["UserNick"]);
         //Debug.Log(gameData["UserGold"]);
@@ -86,6 +90,30 @@ public class Login : MonoBehaviour {
 
     public void LoginBtn()
     {
-        StartCoroutine(StartLogin());
+        //StartCoroutine(StartLogin());
+        StartCoroutine(GoogleLogin());
+    }
+
+    IEnumerator GoogleLogin()
+    {
+        yield return null;
+#if UNITY_EDITOR
+        Debug.Log("Editor 환경입니다.");
+#endif
+#if UNITY_ANDROID && !UNITY_EDITOR
+        Social.localUser.Authenticate((bool success) =>
+        {
+            if (success)
+            {             
+                Debug.Log("로그인 성공!");                //로긴 성공
+                logText.text = "Login Thank you 4$!" + Social.localUser.id;
+            }
+            else
+            {
+                Debug.Log("로그인 실패!");                //로긴 실패
+                logText.text = "Login failed!";
+            }
+        });
+#endif
     }
 }
