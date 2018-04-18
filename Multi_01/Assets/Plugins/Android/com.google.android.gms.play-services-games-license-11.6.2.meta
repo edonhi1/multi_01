@@ -1,24 +1,36 @@
 fileFormatVersion: 2
-guid: d6818093f50bd6f4aa117ef154e9949a
+guid: d4b8d05b4ceb8bd4db725f595dd6a7aa
 labels:
 - gpsr
 folderAsset: yes
-timeCreated: 1523946485
+timeCreated: 1524038656
 licenseType: Free
 PluginImporter:
-  serializedVersion: 1
+  serializedVersion: 2
   iconMap: {}
   executionOrder: {}
   isPreloaded: 0
   isOverridable: 0
   platformData:
-    Any:
-      enabled: 1
-      settings: {}
-    Editor:
-      enabled: 0
-      settings:
-        DefaultValueInitialized: true
+    data:
+      first:
+        Android: Android
+      second:
+        enabled: 1
+        settings: {}
+    data:
+      first:
+        Any: 
+      second:
+        enabled: 0
+        settings: {}
+    data:
+      first:
+        Editor: Editor
+      second:
+        enabled: 0
+        settings:
+          DefaultValueInitialized: true
   userData: 
   assetBundleName: 
   assetBundleVariant: 

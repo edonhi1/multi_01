@@ -32,6 +32,12 @@ public class Login : MonoBehaviour {
         else
         {
             //여기서 부터 로그인 시작..
+            PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
+
+            PlayGamesPlatform.InitializeInstance(config);
+
+            PlayGamesPlatform.Activate();
+
             StartCoroutine(VerCheck());
         }
 	}
