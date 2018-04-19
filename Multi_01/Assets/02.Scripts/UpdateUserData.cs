@@ -14,10 +14,12 @@ public class UpdateUserData : MonoBehaviour {
 
     IEnumerator UpdateCoroutine()
     {
-        //Debug.Log(updateURL + "?UserID=" + PlayerPrefs.GetInt("UserID") + "&UserNick=" + PlayerPrefs.GetString("UserNick") + "&UserCash=" + gameManager.cash + "&UserScore=" + gameManager.score);
         WWWForm form = new WWWForm();
         form.AddField("UserID", PlayerPrefs.GetInt("UserID"));
         form.AddField("UserNick", PlayerPrefs.GetString("UserNick"));
+#if UNITY_ANDROID && !UNITY_EDITOR
+        form.AddField("Google", PlayerPrefs.GetString("Google"));
+#endif
         form.AddField("UserGold", gameManager.gold);
         form.AddField("UserCash", gameManager.cash);
         form.AddField("UserScore", gameManager.score);

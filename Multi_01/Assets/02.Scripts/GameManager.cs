@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour {
         userNick.text = PlayerPrefs.GetString("UserNick");
         userGold.text = "GOLD : " + gold.ToString("#,###,##0");
         userCash.text = "CASH : " + cash.ToString("###,##0"); ;
-        userScore.text = "Score : " + score.ToString("#,###,##0"); ;
+        userScore.text = "SCORE : " + score.ToString("#,###,##0"); ;
     }
 
     public void UpGold()

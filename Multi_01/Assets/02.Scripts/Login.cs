@@ -33,9 +33,7 @@ public class Login : MonoBehaviour {
         {
             //여기서 부터 로그인 시작..
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
-
             PlayGamesPlatform.InitializeInstance(config);
-
             PlayGamesPlatform.Activate();
 
             StartCoroutine(VerCheck());
@@ -63,8 +61,8 @@ public class Login : MonoBehaviour {
         WWWForm form = new WWWForm();   //클라이언트 데이터를 보내기 위한 새로운 폼 생성
         form.AddField("UserID", PlayerPrefs.GetInt("UserID"));   //생성된 폼에 key, value 추가
         form.AddField("UUID", SystemInfo.deviceUniqueIdentifier);   //생성된 폼에 key, value 추가
-        Debug.Log(PlayerPrefs.GetInt("UserID"));
-        Debug.Log(SystemInfo.deviceUniqueIdentifier);
+        //Debug.Log(PlayerPrefs.GetInt("UserID"));
+        //Debug.Log(SystemInfo.deviceUniqueIdentifier);
         WWW www = new WWW(gameServerURL, form);     //http 접속을 위한 새로운 WWW클래스 생성
         yield return www;   //www 반환대기
         Debug.Log(www.text);
@@ -78,15 +76,12 @@ public class Login : MonoBehaviour {
         var gameData = JSON.Parse(data);
         PlayerPrefs.SetInt("UserID", int.Parse(gameData["UserID"]));
         PlayerPrefs.SetString("UserNick", gameData["UserNick"]);
+#if UNITY_ANDROID && !UNITY_EDITOR
+        PlayerPrefs.SetString("Google", Social.localUser.id);
+#endif
         PlayerPrefs.SetInt("UserGold", int.Parse(gameData["UserGold"]));
         PlayerPrefs.SetInt("UserCash", int.Parse(gameData["UserCash"]));
         PlayerPrefs.SetInt("UserScore", int.Parse(gameData["UserScore"]));
-        
-        //Debug.Log(gameData["UserID"]);
-        //Debug.Log(gameData["UserNick"]);
-        //Debug.Log(gameData["UserGold"]);
-        //Debug.Log(gameData["UserCash"]);
-        //Debug.Log(gameData["UserScore"]);       
     }
 
     public void OpenMarket()
@@ -96,7 +91,6 @@ public class Login : MonoBehaviour {
 
     public void LoginBtn()
     {
-        //StartCoroutine(StartLogin());
         StartCoroutine(GoogleLogin());
     }
 
@@ -105,6 +99,7 @@ public class Login : MonoBehaviour {
         yield return null;
 #if UNITY_EDITOR
         Debug.Log("Editor 환경입니다.");
+        StartCoroutine(StartLogin());
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
         Social.localUser.Authenticate((bool success) =>
@@ -112,7 +107,8 @@ public class Login : MonoBehaviour {
             if (success)
             {             
                 Debug.Log("로그인 성공!");                //로긴 성공
-                logText.text = "Login Thank you 4$!" + Social.localUser.id;
+                logText.text = "Login ID: " + Social.localUser.id;
+                StartCoroutine(StartLogin());
             }
             else
             {
